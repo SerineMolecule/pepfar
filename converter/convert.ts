@@ -74,7 +74,7 @@ contents = contents.replace(/<a target="_blank" href="[^"]*"><code>pepfarreport.
 	let title;
 	switch (linkId) {
 	case 'subscribe':
-		return '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScGE2AdcYWkRFIhBmW47y9JPZXBLIr6s9NFCIXyOyN-wjdNiA/viewform?embedded=true" width="100%" height="460" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>';
+		return '<iframe class="emailform" src="https://docs.google.com/forms/d/e/1FAIpQLScGE2AdcYWkRFIhBmW47y9JPZXBLIr6s9NFCIXyOyN-wjdNiA/viewform?embedded=true" width="100%" height="460" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>';
 		break;
 	case 'cost-benefit-antiretrovirals':
 		title = 'Cost-Benefit Analysis: Antiretrovirals';
