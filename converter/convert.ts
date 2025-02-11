@@ -47,9 +47,19 @@ contents = contents.replace(/<ol class="footnotes-list">\s*(.*?)\s*<\/ol>/s, (st
 		.replace(/<a href="#fnref([0-9]+)" class="footnote-backref">↩︎<\/a><\/p>\s*<\/li>/g, '<a href="#footnote-ref-$1" class="footnote-backlink">↩︎<\/a></p>');
 });
 
-contents = contents.replace(/<h([1-6])>(.*?)<\//g, (str, hNum, title) => {
-	const id = title.toLowerCase().normalize('NFKD').replace(/ /g, '-').replace(/[^a-z0-9-]+/g, '');
-	return `<h${hNum} id="${id}">${title}</`;
+let idmap = Object.create(null);
+contents = contents.replace(/<h([1-6])>(.*?)<\/h/g, (str, hNum, title) => {
+	const matches = title.match(/^<strong>(.*)<\/strong> {#([^}]*)}$/) || title.match(/^(.*) {#([^}]*)}$/);
+	let oldId;
+	if (matches) {
+		[, title, oldId] = matches;
+	}
+	let id = title.toLowerCase().normalize('NFKD').replace(/ /g, '-').replace(/[^a-z0-9-]+/g, '');
+	if (oldId) idmap[oldId] = id;
+	return `<h${hNum} id="${id}">${title}</h`;
+});
+contents = contents.replace(/ href="#([^"]*)"/g, (str, oldId) => {
+	return ` href="#${idmap[oldId] || oldId}"`;
 });
 
 contents = contents.replace(/<h1/g, '</article><article><h1');
