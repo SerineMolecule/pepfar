@@ -173,6 +173,12 @@ a:visited:hover {
 	cursor: pointer;
 	font: 13pt "Helvetica Neue", "Neue Helvetica", Helvetica, Arial, sans-serif;
 }
+.smallbutton {
+	font-size: 12pt;
+	padding: 3px 8px;
+	font-style: inherit;
+	font: inherit;
+}
 .button:hover, a.button:hover, .dark a.button:hover {
 	background: #446aa2;
 	color: #EEEEEE;
@@ -908,7 +914,7 @@ const byline = document.querySelector('.byline');
 byline.insertAdjacentHTML(
 	'afterend',
 	'<div class="byline-show"><p><em>Authors: Kelsey Piper (Journalist, Vox), Leah Libresco Sargeant (Journalist), Colin Aitken (Postdoctoral scholar in development economics, UChicago), ' +
-	'<button class="button" onclick="showByline();return false">and others</button></em></p></div>'
+	'<button class="button smallbutton" onclick="showByline();return false">and others</button></em></p></div>'
 );
 byline.style.display = 'none';
 function showByline() {
