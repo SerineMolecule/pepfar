@@ -74,6 +74,11 @@ contents = contents.replace(/<a target="_blank" href="[^"]*"><code>https:\/\/pep
 	return `<a class="button" href="/${linkId}" target="_blank">${title}</a>`;
 });
 
+// just the first article (bylines)
+contents = contents.replace('<article>', '<article style="background:transparent;font-size:12pt">');
+contents = contents.replace('</article>', `<p><a class="button" href="pepfar-summary.pdf">Executive summary (PDF)</a> <a class="button" href="pepfar-report.pdf">Full essay (PDF)</a></p>
+</article>`);
+
 contents = contents.replace(/<img src="([^"]*)" width="([^"]*)" height="([^"]*)" alt="([^"]*)">/g, (str, src, w, h, alt) => {
 	if (src === 'images/image1.png') {
 		return '<div class="owid fullwidth"><iframe src="https://ourworldindata.org/grapher/hiv-death-rates?tab=chart&country=~OWID_WRL" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe></div>';
