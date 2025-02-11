@@ -5,12 +5,12 @@
 <title>PEPFAR</title>
 
 <script>
-	<!--
-	// load saved options
-	let options = {};
-	try {
-		options = JSON.parse(localStorage.getItem('reading_options')) || {};
-	} catch (e) {}
+// Options
+// ==============================================================
+let options = {};
+try {
+	options = JSON.parse(localStorage.getItem('reading_options')) || {};
+} catch (e) {}
 
 	function updateClasses() {
 		document.documentElement.className = ((options.dark === 'dark' || !options.dark && window.matchMedia?.('(prefers-color-scheme: dark)').matches) ? "dark" : "") +
@@ -275,6 +275,19 @@ header h1 {
 	border-bottom: 10px solid #333;
 }
 .tooltip .footnote-backlink {
+	display: none;
+}
+
+.bginfo {
+	display: none;
+}
+.bginfo-show {
+	display: block;
+}
+.bginfo-shown .bginfo {
+	display: block;
+}
+.bginfo-shown .bginfo-show {
 	display: none;
 }
 
@@ -751,49 +764,93 @@ There’s <a href="https://pubmed.ncbi.nlm.nih.gov/11361991/">interesting theore
 
 </main>
 
-<script async>
-	const headings = document.querySelectorAll('main h1, h2');
-	const nav = document.querySelector('nav ul');
-	const navLinks = [];
-	// TODO (maybe): cache this directly in the HTML once the document is done
-	for (const heading of headings) {
-		const li = document.createElement('li');
-		const a = document.createElement('a');
-		a.href = '#' + heading.id;
-		a.textContent = heading.textContent;
-		a.className = heading.tagName.toLowerCase();
-		li.append(a);
-		navLinks.push(a);
-		nav.append(li);
+<script>
+// Nav
+// ==============================================================
+const headings = document.querySelectorAll('main h1, h2');
+const nav = document.querySelector('nav ul');
+const navLinks = [];
+// TODO (maybe): cache this directly in the HTML once the document is done
+let belowBginfo = false;
+let bginfoHeadings = [];
+for (const heading of headings) {
+	const li = document.createElement('li');
+	const a = document.createElement('a');
+	a.href = '#' + heading.id;
+	a.textContent = heading.textContent;
+	a.className = heading.tagName.toLowerCase();
+	if (heading.id === 'background') {
+		belowBginfo = true;
+	} else if (a.className === 'h1') {
+		belowBginfo = false;
+	} else if (belowBginfo) {
+		li.className = 'bginfo';
+		bginfoHeadings.push(a);
 	}
+	li.append(a);
+	navLinks.push(a);
+	nav.append(li);
+}
 
-	let activeLink = null;
-	function updateScroll() {
-		const scrollTop = window.scrollY;
+let activeLink = null;
+function updateScroll() {
+	const scrollTop = window.scrollY;
 
-		activeLink?.classList.remove("active");
+	activeLink?.classList.remove("active");
 
-		// binary search for the heading that is currently in view
-		let low = 0, high = headings.length - 1, result = -1;
-		while (low <= high) {
-			const mid = Math.floor((low + high) / 2);
-			if (scrollTop > headings[mid].offsetTop - 75) {
-				result = mid;
-				low = mid + 1;
-			} else {
-				high = mid - 1;
-			}
-		}
-		if (result !== -1) {
-			activeLink = navLinks[result];
-			activeLink.classList.add('active');
+	// binary search for the heading that is currently in view
+	let low = 0, high = headings.length - 1, result = -1;
+	while (low <= high) {
+		const mid = Math.floor((low + high) / 2);
+		if (scrollTop > headings[mid].offsetTop - 75) {
+			result = mid;
+			low = mid + 1;
+		} else {
+			high = mid - 1;
 		}
 	}
+	if (result !== -1) {
+		activeLink = navLinks[result];
+		activeLink.classList.add('active');
+	}
+}
 
-	window.addEventListener('scroll', updateScroll);
-</script>
+window.addEventListener('scroll', updateScroll);
 
-<script async>
+// Background info collapsed
+// ==============================================================
+const bginfo = document.getElementById('background').parentElement;
+bginfo.className = 'bginfo';
+bginfo.insertAdjacentHTML(
+	'afterend',
+	'<article class="bginfo-show"><h1>Background</h1>' +
+	'<ul>' + bginfoHeadings.map(
+		a => '<li><a href="' + a.href + '">' + a.innerHTML + '</a></li>'
+	).join('') + '</ul>' +
+	'<p><button class="button" onclick="showBGInfo();return false">Show background information</button></p></article>'
+);
+function showBGInfo() {
+	document.documentElement.classList.add('bginfo-shown');
+	updateScroll();
+}
+function updateHash() {
+	const hash = document.location.hash;
+	if (!hash) return;
+	if (document.documentElement.classList.contains('bginfo-shown')) {
+		return;
+	}
+	const hashHeading = document.getElementById(hash.slice(1));
+	if (!hashHeading) return;
+	if (hashHeading.parentElement.className === 'bginfo') {
+		showBGInfo();
+		hashHeading.scrollIntoView();
+	}
+}
+updateHash();
+window.addEventListener('hashchange', updateHash);
+
+// Tooltips and sidenotes
+// ==============================================================
 /**
  * @param {MouseEvent} ev
  */
@@ -864,14 +921,16 @@ function showSidenotes() {
 		const id = backlink.getAttribute('href').slice(1);
 		const ref = document.querySelector(`#${id}`);
 		if (!ref) continue;
-		const refY = Math.max(ref.getBoundingClientRect().top + window.scrollY, minY);
+		const rect = ref.getBoundingClientRect();
+		const refY = Math.max(rect.top + window.scrollY, minY);
 
+		footnote.style.display = rect.width ? 'block' : 'none';
 		footnote.style.position = 'absolute';
 		footnote.style.top = `${refY - 20}px`;
-		footnote.style.left = `${mainRight + 4}px`;
+		footnote.style.left = `${mainRight + 7}px`;
 		footnote.style.width = `${availableWidth}px`;
 
-		minY = refY + footnote.getBoundingClientRect().height + 10;
+		if (rect.width) minY = refY + footnote.getBoundingClientRect().height + 10;
 	}
 }
 
