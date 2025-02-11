@@ -1,54 +1,53 @@
 import * as fs from 'node:fs/promises';
+import markdownit from 'markdown-it';
+import markdownitFootnote from 'markdown-it-footnote';
 
-let contents = await fs.readFile('./in.html', 'utf-8');
+// converts a Markdown file exported from Google Docs to HTML supported by the web site
+// doesn't include images (there's commented out code to extract them from the Markdown,
+// but grabbing them from the HTML ZIP file exported from Google Docs will get them in
+// much higher quality)
 
-contents = contents.replace(/<style\b.*?<\/style>/g, '');
-// none of their classes seem relevant to us
-contents = contents.replace(/ class="[^"]*"/g, '');
-contents = contents.replace(/<\/?span>/g, '');
-contents = contents.replace(/<span style="[^"]*">/g, '');
-// empty p tags seem to do nothing at all
-contents = contents.replace(/<p><\/p>/g, '');
-// these seem mostly useless, they don't even correspond to actual spaces in the doc
-contents = contents.replace(/<br>/g, '');
+const md = markdownit().use(markdownitFootnote);
 
-// comment stuff (why is this even exported?)
-contents = contents.replace(/<div><p><a href="#cmnt_ref[0-9]+".*/g, '');
-contents = contents.replace(/<sup><a href="#cmnt[0-9]+" id="cmnt_ref[0-9]+">\[[a-z]+\]<\/a><\/sup>/g, '');
+let contents = await fs.readFile(`${import.meta.dirname}/in.md`, 'utf-8');
 
-// only used by footnotes
-// contents = contents.replace(/<div><p/g, '<p class="footnote"');
-contents = contents.replace(/<\/?div>/g, '');
-contents = contents.replace(/<sup>/g, '<sup class="footnote">');
-
-// wtf google why would you put your interestitial in an export
-// anyway we might as well make the links open in a new tab
-contents = contents.replace(/<a href="http/g, '<a target="_blank" href="http');
-// contents = contents.replace(/&amp;sa=D[^"]*"/g, '"');
-
-contents = contents.replace(/<h([1-6])/g, '\n<h$1');
-contents = contents.replace(/<p>/g, '\n<p>');
-contents = contents.replace('<html><head><meta content="text/html; charset=UTF-8" http-equiv="content-type"></head><body>\n', '');
+contents = md.render(contents);
 
 // images
-contents = contents.replace(/ style="width: ([0-9.]+)px; height: ([0-9.]+)px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate\(0.00rad\) translateZ\(0px\); -webkit-transform: rotate\(0.00rad\) translateZ\(0px\);"/g, ' width="$1" height="$2" style="height:auto;max-width:90vw"');
+let i = 0;
+contents = contents.replace(/<img src="(.*?)"/g, (str, oldSrc) => {
+	// n.b. these are notably worse than the ones from gdocs's HTML ZIP export
+	// void fs.writeFile(`${import.meta.dirname}/images/image${i + 1}.png`, Buffer.from(oldSrc.split(',')[1], 'base64'));
+	const src = `images/image${i + 1}.png`;
+    i++;
+	return `<img style="object-fit:contain;max-width:100%" src="${src}"`;
+});
 
-// nicer footnote IDs
-contents = contents.replace(/<p><a href="#ftnt_ref([0-9]+)" id="ftnt/g, '<p id="footnote-$1"><a class="footnote-backlink" href="#footnote-ref-');
-contents = contents.replace(/id="ftnt_ref/g, 'id="footnote-ref-');
-contents = contents.replace(/href="#ftnt/g, 'href="#footnote-');
-contents = contents.replace(/id="ftnt/g, 'id="footnote-');
-
+// we use different footnote syntax
 contents = '<article>' + contents + '\n</article>';
-contents = contents.replace('<hr>', '</article><article class="footnotes">');
+contents = contents.replace('<hr class="footnotes-sep">', '</article><article class="footnotes">');
+contents = contents.replace(/<\/?section(?: [^>]*)?>/g, '');
 
-contents = contents.replace(/<h([1-6]) id="[^"]+">(.*?)<\//g, (str, hNum, title) => {
+contents = contents.replace(
+	/<sup class="footnote-ref"><a href="#fn([0-9]+)" id="fnref[0-9]+">[[0-9]+]<\/a><\/sup>/g,
+	'<sup class="footnote"><a href="#footnote-$1" id="footnote-ref-$1">$1</a></sup>',
+);
+contents = contents.replace(/<ol class="footnotes-list">\s*(.*?)\s*<\/ol>/s, (str, list) => {
+	return list.replace(/<li id="fn([0-9]+)" class="footnote-item"><p>/g, '<p id="footnote-$1"><sup>$1</sup> ')
+		.replace(/<a href="#fnref([0-9]+)" class="footnote-backref">↩︎<\/a><\/p>\s*<\/li>/g, '<a href="#footnote-ref-$1" class="footnote-backlink">↩︎<\/a></p>');
+});
+
+contents = contents.replace(/<h([1-6])>(.*?)<\//g, (str, hNum, title) => {
 	const id = title.toLowerCase().normalize('NFKD').replace(/ /g, '-').replace(/[^a-z0-9-]+/g, '');
 	return `<h${hNum} id="${id}">${title}</`;
 });
 
-contents = contents.replace(/<h1/g, '</article><article><h1');
-contents = contents.replace('<article></article><article>', '<article>');
+// contents = contents.replace(/<h1/g, '</article><article><h1');
+// contents = contents.replace('<article></article><article>', '<article>');
 
-fs.writeFile('./out.html', contents, 'utf-8');
- 
+console.log('writing out...');
+await fs.writeFile(`${import.meta.dirname}/out.html`, contents, 'utf-8');
+
+console.log('replacing index...');
+const oldIndex = await fs.readFile(`${import.meta.dirname}/../index.html`, 'utf-8');
+await fs.writeFile(`${import.meta.dirname}/../index.html`, oldIndex.replace(/<main>.*?<\/main>/s, `<main>\n\n${contents}\n\n</main>`), 'utf-8');
