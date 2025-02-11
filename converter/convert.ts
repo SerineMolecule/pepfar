@@ -91,6 +91,9 @@ contents = contents.replace(/<img src="([^"]*)" width="([^"]*)" height="([^"]*)"
 contents = contents.replace('<table', '<div class="fullwidth"><table');
 contents = contents.replace('</table>', '</table></div>');
 
+contents = contents.replace(/<p>(In the end, America is idealistic because it is the creation of an ideal[^<]*)<\/p>\s<p>([^<]*)<\/p>/, '<blockquote>\n<p>$1</p>\n<p>$2</p>\n</blockquote>');
+contents = contents.replace(/<p>(One person from a rural area.*?)<\/p>/, '<blockquote>\n<p>$1</p>\n</blockquote>');
+
 console.log('writing out...');
 await fs.writeFile(`${import.meta.dirname}/out.html`, contents, 'utf-8');
 
