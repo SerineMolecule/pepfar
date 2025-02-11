@@ -90,7 +90,7 @@ contents = contents.replace(/<a target="_blank" href="[^"]*"><code>pepfarreport.
 
 // just the first article (bylines)
 contents = contents.replace(/<h1 .*?<\/h1>/, ''); // original header
-contents = contents.replace('<article>', '<article style="background:transparent;font-size:12pt;margin:-8px 0"><div class="byline">');
+contents = contents.replace('<article>', '<article class="byline-section"><div class="byline">');
 contents = contents.replace('</article>', `</div><p><a class="button" href="pepfar-summary.pdf">Executive summary (PDF)</a> <a class="button" href="pepfar-report.pdf">Full essay (PDF)</a></p>
 </article>`);
 
