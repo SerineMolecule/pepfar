@@ -85,8 +85,9 @@ contents = contents.replace(/<a target="_blank" href="[^"]*"><code>https:\/\/pep
 });
 
 // just the first article (bylines)
-contents = contents.replace('<article>', '<article style="background:transparent;font-size:12pt">');
-contents = contents.replace('</article>', `<p><a class="button" href="pepfar-summary.pdf">Executive summary (PDF)</a> <a class="button" href="pepfar-report.pdf">Full essay (PDF)</a></p>
+contents = contents.replace(/<h1 .*?<\/h1>/, ''); // original header
+contents = contents.replace('<article>', '<article style="background:transparent;font-size:12pt;margin:-8px"><div class="byline">');
+contents = contents.replace('</article>', `</div><p><a class="button" href="pepfar-summary.pdf">Executive summary (PDF)</a> <a class="button" href="pepfar-report.pdf">Full essay (PDF)</a></p>
 </article>`);
 
 contents = contents.replace(/<img src="([^"]*)" width="([^"]*)" height="([^"]*)" alt="([^"]*)">/g, (str, src, w, h, alt) => {

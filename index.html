@@ -824,6 +824,21 @@ function updateScroll() {
 
 window.addEventListener('scroll', updateScroll);
 
+// Byline collapsed
+// ==============================================================
+const byline = document.querySelector('.byline');
+byline.insertAdjacentHTML(
+	'afterend',
+	'<div class="byline-show"><p><em>Authors: Kelsey Piper (Journalist, Vox), Leah Libresco Sargeant (Journalist), Colin Aitken (Postdoctoral scholar in development economics, UChicago), ' +
+	'<button class="button" onclick="showByline();return false">and others</button></em></p></div>'
+);
+byline.style.display = 'none';
+function showByline() {
+	byline.style.display = 'block';
+	document.querySelector('.byline-show').style.display = 'none';
+	updateResize();
+}
+
 // Background info collapsed
 // ==============================================================
 const bginfo = document.getElementById('background').parentElement;
