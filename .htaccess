@@ -20,3 +20,7 @@
         Header set Expires "Thu, 1 Jan 1970 00:00:00 GMT"
     </IfModule>
 </FilesMatch>
+
+RewriteRule ^subscribe\/?$ https://docs.google.com/forms/d/e/1FAIpQLScGE2AdcYWkRFIhBmW47y9JPZXBLIr6s9NFCIXyOyN-wjdNiA/viewform [R=302,L]
+RewriteRule ^cost\-?benefit\-?antiretrovirals?\/?$ https://docs.google.com/spreadsheets/d/1efuWkYruCZPPIkeNa3jeyAIog4i1ts00zflv9fNsf0w/edit?gid=0#gid=0 [R=302,L]
+RewriteRule ^cost\-?benefit\-?mortality\/?$ https://docs.google.com/spreadsheets/d/1-545TtqfnQk1CVQEYPNufnaHvh78HB6ueDDYzLmYCQ0/edit [R=302,L]
