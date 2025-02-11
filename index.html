@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="favicon.png" />
 <title>PEPFAR Report</title>
-<meta property="og:image" content="/hiv.png" />
+<meta property="og:image" content="/hiv.jpg" />
 <meta name="description" content="The State Department, which administers PEPFAR, says the program has saved 25 million lives. We are an independent team of journalists, academics, and technologists who decided to investigate whether that was true." />
 
 <script>
@@ -14,42 +14,41 @@ try {
 	options = JSON.parse(localStorage.getItem('reading_options')) || {};
 } catch (e) {}
 
-	function updateClasses() {
-		document.documentElement.className = ((options.dark === 'dark' || !options.dark && window.matchMedia?.('(prefers-color-scheme: dark)').matches) ? "dark" : "") +
-			(options.width ? ' wide' : ' narrow');
-		window.updateResize?.(); // may not be defined yet
-	}
-	updateClasses();
+function updateClasses() {
+	document.documentElement.className = ((options.dark === 'dark' || !options.dark && window.matchMedia?.('(prefers-color-scheme: dark)').matches) ? "dark" : "") +
+		(options.width ? ' wide' : ' narrow');
+	window.updateResize?.(); // may not be defined yet
+}
+updateClasses();
 
-	// automatically change dark mode when system setting changes
-	window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', updateClasses);
-	window.addEventListener('DOMContentLoaded', () => {
-		// add options menu
-		const optionsElem = document.createElement('div');
-		optionsElem.className = 'options';
-		const darkSelect = '<select name="dark" id="option_dark" value="' + (options.dark || '') + '">' +
-			'<option value="">Auto dark</option>' +
-			'<option value="dark"' + (options.dark === 'dark' ? ' selected' : '') + '>Dark</option>' +
-			'<option value="light"' + (options.dark === 'light' ? ' selected' : '') + '>Light</option></select> ';
-		const widthSelect = '<select name="width" id="option_width" value="' + (options.width || '') + '">' +
-			'<option value="">Normal width</option>' +
-			'<option value="wide"' + (options.width ? ' selected' : '') + '>Full width</option></select>';
-		optionsElem.innerHTML = darkSelect + widthSelect;
-		document.body.append(optionsElem);
+// automatically change dark mode when system setting changes
+window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', updateClasses);
+window.addEventListener('DOMContentLoaded', () => {
+	// add options menu
+	const optionsElem = document.createElement('div');
+	optionsElem.className = 'options';
+	const darkSelect = '<select name="dark" id="option_dark" value="' + (options.dark || '') + '">' +
+		'<option value="">Auto dark</option>' +
+		'<option value="dark"' + (options.dark === 'dark' ? ' selected' : '') + '>Dark</option>' +
+		'<option value="light"' + (options.dark === 'light' ? ' selected' : '') + '>Light</option></select> ';
+	const widthSelect = '<select name="width" id="option_width" value="' + (options.width || '') + '">' +
+		'<option value="">Normal width</option>' +
+		'<option value="wide"' + (options.width ? ' selected' : '') + '>Full width</option></select>';
+	optionsElem.innerHTML = darkSelect + widthSelect;
+	document.body.append(optionsElem);
 
-		// handle option changes
-		document.getElementById('option_dark').addEventListener('change', event => {
-			options.dark = event.target.value;
-			localStorage.setItem('reading_options', JSON.stringify(options));
-			updateClasses();
-		});
-		document.getElementById('option_width')?.addEventListener('change', event => {
-			options.width = event.target.value;
-			localStorage.setItem('reading_options', JSON.stringify(options));
-			updateClasses();
-		});
+	// handle option changes
+	document.getElementById('option_dark').addEventListener('change', event => {
+		options.dark = event.target.value;
+		localStorage.setItem('reading_options', JSON.stringify(options));
+		updateClasses();
 	});
-	-->
+	document.getElementById('option_width')?.addEventListener('change', event => {
+		options.width = event.target.value;
+		localStorage.setItem('reading_options', JSON.stringify(options));
+		updateClasses();
+	});
+});
 </script>
 <style>
 html, body {
@@ -61,7 +60,7 @@ html {
 	color: #000;
 	font: 13pt "Helvetica Neue", "Neue Helvetica", Helvetica, Arial, sans-serif;
 	overflow-wrap: break-word;
-	line-height: 1.6;
+	line-height: 1.2;
 }
 .dark, .dark body {
 	background: #222222;
@@ -70,7 +69,7 @@ html {
 }
 article {
 	background: #dddddd;
-	padding: 1px 20px;
+	padding: 1px 32px;
 	margin-top: 10px;
 	margin-bottom: 30px;
 }
@@ -85,6 +84,7 @@ article {
 }
 h1, h2, h3, h4, h5 {
 	font-family: Georgia, serif;
+	margin-left: -15px;
 }
 h1, h2, h3, h4, h5, a {
 	color: #15376a;
@@ -96,10 +96,15 @@ header h1, .dark header h1 {
 	color: inherit;
 }
 main, nav {
-	max-width: 760px;
+	max-width: 780px;
 	margin: 0 auto;
-	padding: 12px;
-	line-height: 1.2;
+	padding: 12px 0;
+}
+main {
+	line-height: 1.5;
+}
+nav {
+	font-size: 12pt;
 }
 @media (max-width: 820px) {
 	#option_width {
@@ -119,6 +124,9 @@ main, nav {
 	overflow-x: auto;
 }
 @media (min-width: 1000px) {
+	article {
+		padding: 1px 40px;
+	}
 	.fullwidth {
 		margin: 0 -40px;
 	}
@@ -162,9 +170,6 @@ a:visited:hover {
 	color: #EEEEEE;
 }
 
-.options {
-	text-align: center;
-}
 @media (min-width: 1000px) {
 	.narrow nav {
 		position: sticky;
@@ -211,18 +216,18 @@ nav a.active {
 }
 header {
 	/* 15376a */
-	background: url(hiv.png) right -30vw top 30% no-repeat hsl(271, 67%, 25%);
+	background: url(hiv.jpg) right -40vw top 30% no-repeat hsl(271, 67%, 25%);
 	background-size: 100%;
 	background-blend-mode: screen;
 	filter: hue-rotate(-55deg);
 
 	color: #dddddd;
 	padding: 10px;
-	height: 150px;
+	height: 80px;
 	transition: 1s;
 }
 header:hover {
-	background: url(hiv.png) right -35vw top 30% no-repeat hsl(271, 67%, 25%);
+	background: url(hiv.jpg) right -45vw top 30% no-repeat hsl(271, 67%, 25%);
 	background-size: 110%;
 }
 .footnote a {
@@ -243,14 +248,14 @@ header h1 {
 	margin: 0 auto;
 	max-width: 760px;
 	text-align: left;
-	padding-top: 40px;
+	padding-top: 18px;
 }
 @media (max-width: 800px) {
 	header {
-		height: 100px;
+		height: 70px;
 	}
 	header h1 {
-		padding-top: 20px;
+		padding-top: 13px;
 	}
 }
 
@@ -901,9 +906,9 @@ function closeTooltip() {
 }
 function showSidenotes() {
 	const mainRight = document.querySelector('main')?.getBoundingClientRect()?.right + window.scrollX;
-	let availableWidth = window.innerWidth - mainRight - 22;
+	let availableWidth = window.innerWidth - mainRight - 25;
 	if (!availableWidth || availableWidth < 220) availableWidth = 0;
-	if (availableWidth > 320) availableWidth = 320;
+	if (availableWidth > 380) availableWidth = 380;
 
 	const footnoteContainer = document.querySelector('.footnotes');
 	footnoteContainer.classList.toggle('has-sidenotes', !!availableWidth);
