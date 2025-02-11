@@ -88,7 +88,7 @@ h1, h2, h3, h4, h5, a {
 	color: #15376a;
 }
 .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark a {
-	color: #597bad;
+	color: #6d91c7;
 }
 header h1, .dark header h1 {
 	color: inherit;
@@ -107,18 +107,41 @@ main, nav {
 .wide main, .wide nav {
 	max-width: none;
 }
+.owid iframe {
+	display: block;
+	background: white;
+	height: 400px !important;
+}
+.fullwidth {
+	margin: 0 -32px;
+	overflow-x: auto;
+}
+@media (min-width: 1000px) {
+	.fullwidth {
+		margin: 0 -40px;
+	}
+	.owid iframe {
+		height: 600px !important;
+	}
+}
 
 a:hover {
 	color: #446aa2;
 }
-.dark a:hover {
-	color: rgb(33, 143, 239);
-}
-.dark a:visited {
-	color: #9160a0;
-}
 a:visited {
 	color: #633173;
+}
+a:visited:hover {
+	color: #9851b1;
+}
+.dark a:hover {
+	color: #218fef;
+}
+.dark a:visited {
+	color: #b57cc6;
+}
+.dark a:visited:hover {
+	color: #c532f2;
 }
 
 .options {
