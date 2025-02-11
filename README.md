@@ -20,3 +20,5 @@ of vanilla JS?
 So yeah, vanilla JS, optimized very much for an absolutely tiny download.
 (Besides the embeds, nothing I can do about those.) If you want to host
 your own essays, this is probably not a bad starting point.
+
+Dual-licensed under MIT and CC-BY-4.0.
