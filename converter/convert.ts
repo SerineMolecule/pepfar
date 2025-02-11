@@ -11,6 +11,11 @@ const md = markdownit().use(markdownitFootnote);
 
 let contents = await fs.readFile(`${import.meta.dirname}/in.md`, 'utf-8');
 
+const htmlContents = await fs.readFile(`${import.meta.dirname}/in.html`, 'utf-8');
+const images = [...htmlContents.matchAll(/<img alt="[^"]*" src="([^"]*)" style="width: ([0-9.]+)px; height: ([0-9.]+)px;[^"]*"[^>]*>/g)].map(
+	([, src, width, height]) => ({src, width: Number(width), height: Number(height)})
+);
+
 contents = md.render(contents);
 
 // images
@@ -18,9 +23,11 @@ let i = 0;
 contents = contents.replace(/<img src="(.*?)"/g, (str, oldSrc) => {
 	// n.b. these are notably worse than the ones from gdocs's HTML ZIP export
 	// void fs.writeFile(`${import.meta.dirname}/images/image${i + 1}.png`, Buffer.from(oldSrc.split(',')[1], 'base64'));
-	const src = `images/image${i + 1}.png`;
+	const image = images[i];
+	const width = 780;
+	const height = Math.round(780 * image.height / image.width);
     i++;
-	return `<img style="object-fit:contain;max-width:100%" src="${src}"`;
+	return `<img src="${image.src}" width="${width}" height="${height}"`;
 });
 
 // we use different footnote syntax
@@ -44,6 +51,11 @@ contents = contents.replace(/<h([1-6])>(.*?)<\//g, (str, hNum, title) => {
 
 contents = contents.replace(/<h1/g, '</article><article><h1');
 contents = contents.replace('<article></article><article>', '<article>');
+
+// CUSTOM FOR OUR OWN PAPER
+contents = contents.replace(/<img src="([^"]*)" width="([^"]*)" height="([^"]*)" alt="([^"]*)">/g, (str, src, w, h, alt) => {
+	return `<img src="/${src}" width="${w}" height="${h}" alt="${alt}" style="object-fit:contain;max-width:100%">`;
+});
 
 console.log('writing out...');
 await fs.writeFile(`${import.meta.dirname}/out.html`, contents, 'utf-8');

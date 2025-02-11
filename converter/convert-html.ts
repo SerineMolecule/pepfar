@@ -51,4 +51,3 @@ contents = contents.replace(/<h1/g, '</article><article><h1');
 contents = contents.replace('<article></article><article>', '<article>');
 
 fs.writeFile('./out.html', contents, 'utf-8');
- 
