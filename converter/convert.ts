@@ -30,6 +30,9 @@ contents = contents.replace(/<img src="(.*?)"/g, (str, oldSrc) => {
 	return `<img src="${image.src}" width="${width}" height="${height}"`;
 });
 
+// links open in a new tab
+contents = contents.replace(/<a href="http/g, '<a target="_blank" href="http');
+
 // we use different footnote syntax
 contents = '<article>' + contents + '\n</article>';
 contents = contents.replace('<hr class="footnotes-sep">', '</article><article class="footnotes">');
