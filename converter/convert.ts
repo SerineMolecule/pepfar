@@ -7,6 +7,10 @@ import markdownitFootnote from 'markdown-it-footnote';
 // but grabbing them from the HTML ZIP file exported from Google Docs will get them in
 // much higher quality)
 
+// in Google Docs, export HTML (zipped) (unzip it) and Markdown. Put `in.html` and `in.md`
+// in this directory, then run this file in Node (you'll need a very recent version, like
+// at least 23.3). Using Build in VS Code also works.
+
 const md = markdownit().use(markdownitFootnote);
 
 let contents = await fs.readFile(`${import.meta.dirname}/in.md`, 'utf-8');
