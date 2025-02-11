@@ -53,6 +53,24 @@ contents = contents.replace(/<h1/g, '</article><article><h1');
 contents = contents.replace('<article></article><article>', '<article>');
 
 // CUSTOM FOR OUR OWN PAPER
+contents = contents.replace(/<a target="_blank" href="[^"]*"><code>https:\/\/pepfar.k55.io\/([a-z0-9-]*)<\/code><\/a>/g, (str, linkId) => {
+	let title;
+	switch (linkId) {
+	case 'subscribe':
+		return '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScGE2AdcYWkRFIhBmW47y9JPZXBLIr6s9NFCIXyOyN-wjdNiA/viewform?embedded=true" width="100%" height="460" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>';
+		break;
+	case 'cost-benefit-antiretrovirals':
+		title = 'Cost-Benefit Analysis: Antiretrovirals';
+		break;
+	case 'cost-benefit-mortality':
+		title = 'Cost-Benefit Analysis: Country-Level Mortality';
+		break;
+	default:
+		throw new Error("unrecognized minilink");
+	}
+	return `<a class="button" href="/${linkId}" target="_blank">${title}</a>`;
+});
+
 contents = contents.replace(/<img src="([^"]*)" width="([^"]*)" height="([^"]*)" alt="([^"]*)">/g, (str, src, w, h, alt) => {
 	return `<img src="/${src}" width="${w}" height="${h}" alt="${alt}" style="object-fit:contain;max-width:100%">`;
 });
