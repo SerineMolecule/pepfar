@@ -66,7 +66,7 @@ contents = contents.replace(/<h1/g, '</article><article><h1');
 contents = contents.replace('<article></article><article>', '<article>');
 
 // CUSTOM FOR OUR OWN PAPER
-contents = contents.replace(/<a target="_blank" href="[^"]*"><code>https:\/\/pepfar.k55.io\/([a-z0-9-]*)<\/code><\/a>/g, (str, linkId) => {
+contents = contents.replace(/<a target="_blank" href="[^"]*"><code>pepfarreport.org\/([a-z0-9-]*)<\/code><\/a>/g, (str, linkId) => {
 	let title;
 	switch (linkId) {
 	case 'subscribe':
