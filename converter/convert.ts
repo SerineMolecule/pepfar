@@ -42,8 +42,8 @@ contents = contents.replace(/<h([1-6])>(.*?)<\//g, (str, hNum, title) => {
 	return `<h${hNum} id="${id}">${title}</`;
 });
 
-// contents = contents.replace(/<h1/g, '</article><article><h1');
-// contents = contents.replace('<article></article><article>', '<article>');
+contents = contents.replace(/<h1/g, '</article><article><h1');
+contents = contents.replace('<article></article><article>', '<article>');
 
 console.log('writing out...');
 await fs.writeFile(`${import.meta.dirname}/out.html`, contents, 'utf-8');
