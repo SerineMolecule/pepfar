@@ -75,8 +75,16 @@ contents = contents.replace(/<a target="_blank" href="[^"]*"><code>https:\/\/pep
 });
 
 contents = contents.replace(/<img src="([^"]*)" width="([^"]*)" height="([^"]*)" alt="([^"]*)">/g, (str, src, w, h, alt) => {
-	return `<img src="/${src}" width="${w}" height="${h}" alt="${alt}" style="object-fit:contain;max-width:100%">`;
+	if (src === 'images/image1.png') {
+		return '<div class="owid fullwidth"><iframe src="https://ourworldindata.org/grapher/hiv-death-rates?tab=chart&country=~OWID_WRL" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe></div>';
+	}
+	if (src === 'images/image10.png') {
+		return '<div class="owid fullwidth"><iframe src="https://ourworldindata.org/grapher/deaths-from-hiv-by-age?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe></div>';
+	}
+	return `<div class="fullwidth"><img src="/${src}" width="${w}" height="${h}" alt="${alt}" style="object-fit:contain;max-width:100%"></div>`;
 });
+contents = contents.replace('<table', '<div class="fullwidth"><table');
+contents = contents.replace('</table>', '</table></div>');
 
 console.log('writing out...');
 await fs.writeFile(`${import.meta.dirname}/out.html`, contents, 'utf-8');
