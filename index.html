@@ -875,6 +875,8 @@ for (const heading of headings) {
 let activeLink = null;
 function updateScroll() {
 	const scrollTop = window.scrollY;
+	// hardcode support for hidden Background section
+	const bginfoShow = document.querySelector('.bginfo-show');
 
 	activeLink?.classList.remove("active");
 
@@ -882,7 +884,7 @@ function updateScroll() {
 	let low = 0, high = headings.length - 1, result = -1;
 	while (low <= high) {
 		const mid = Math.floor((low + high) / 2);
-		if (scrollTop > headings[mid].offsetTop - 75) {
+		if (scrollTop > (headings[mid].offsetTop || bginfoShow.offsetTop) - 75) {
 			result = mid;
 			low = mid + 1;
 		} else {
@@ -890,6 +892,9 @@ function updateScroll() {
 		}
 	}
 	if (result !== -1) {
+		if (!headings[result].offsetTop) {
+			result = 1;
+		}
 		activeLink = navLinks[result];
 		activeLink.classList.add('active');
 	}
