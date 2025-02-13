@@ -17,8 +17,31 @@ solution and customize it for my needs, and it also ends up a lot more
 lightweight, too! Who needs React when I can make tooltips in 50 lines
 of vanilla JS?
 
-So yeah, vanilla JS, optimized very much for an absolutely tiny download.
-(Besides the embeds, nothing I can do about those.) If you want to host
-your own essays, this is probably not a bad starting point.
+If you want to join [the essay meta](https://davekasten.substack.com/p/welcome-to-the-essay-meta),
+forking this repo might be quite a nice starting point.
+
+## License
 
 Dual-licensed under MIT and CC-BY-4.0.
+
+## Unusual tech choices FAQ
+
+Q: Where are `<html>`, `<head>`, and `<body>`?
+
+A: Those are technically optional.
+
+Q: Why is the CSS and JS embedded?
+
+A: Fewer requests, faster loading. It's not like we have multiple pages
+to cache styles/scripts for. Splitting up the JS also lets dark mode be
+chosen instantly, so it doesn't flash white while loading.
+
+Q: Sidenotes, tooltips, table of contents highlighting the active
+heading... you know there are libraries for that?
+
+A: Vanilla JS makes for a very tiny download and therefore a very fast-
+loading site. (Besides the embeds, nothing I can do about those, but
+you don't need those to start reading.)
+
+I'm aware that this isn't great for maintainability, but for a site
+like this, I think it's the right trade-off.

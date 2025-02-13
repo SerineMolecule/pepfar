@@ -1185,7 +1185,7 @@ for (const heading of headings) {
 let activeLink = null;
 function updateScroll() {
 	const scrollTop = window.scrollY;
-	// hardcode support for hidden Background section
+	// hardcoded support for hidden Background section
 	const bginfoShow = document.querySelector('.bginfo-show');
 
 	activeLink?.classList.remove("active");
@@ -1203,6 +1203,7 @@ function updateScroll() {
 	}
 	if (result !== -1) {
 		if (!headings[result].offsetTop) {
+			// hardcoded support for hidden Background section
 			result = 1;
 		}
 		activeLink = navLinks[result];
