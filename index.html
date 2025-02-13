@@ -233,45 +233,94 @@ main, .tooltip {
 nav {
 	font-size: 11pt;
 }
-nav ul::before {
+.toc::before {
 	display: block;
 	content: 'Contents';
 	padding: 5px 15px;
 	font-weight: bold;
 }
-nav ul, nav li {
+.toc, .toc li {
 	list-style: none;
 	padding: 0;
+	margin: 0;
 }
-nav ul {
-	background: #e8e8e8;
+nav .toc {
 	padding: 5px 0;
-	margin: 30px 30px 0;
 	max-width: 400px;
+	background: #e8e8e8;
+	margin: 30px 30px 0;
 }
-.dark nav ul {
+.dark nav .toc {
 	background: #222;
 }
-.textured nav ul {
+.textured nav .toc {
 	border: 1px solid #aaa;
 	border-radius: 8px;
 }
-.dark.textured nav ul {
+.dark.textured nav .toc {
 	border-color: #555;
 }
-nav a {
+.toc a {
 	display: block;
 	padding: 5px 10px;
 	text-decoration: none;
+	border-left: 5px solid transparent;
 }
-nav a.h2 {
+.toc a.active {
+	border-color: #446aa2;
+}
+.toc a.h2 {
 	padding-left: 25px;
 }
-nav a.active {
+.toc a.active {
 	text-decoration: underline;
 }
 
+.narrow nav.nav-showable {
+	position: sticky;
+	float: left;
+	margin: 0;
+	top: 0;
+	padding: 0;
+	max-height: 100vh;
+	overflow-y: auto;
+}
+.nav-show {
+	display: none;
+}
+.narrow .nav-show {
+	display: block;
+	width: 30px;
+	height: 30px;
+	font-size: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: #ccc;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+}
+.dark .nav-show {
+	background: #444;
+}
+.nav-show::before {
+	content: '≡';
+	font-size: 25px;
+}
+.narrow .nav-showable ul {
+	display: none;
+}
+.tooltip .nav-show {
+	display: none;
+}
 @media (min-width: 1000px) {
+	.narrow .nav-showable ul {
+		display: block;
+	}
+	.narrow .nav-show {
+		display: none;
+	}
 	.narrow nav {
 		position: sticky;
 		float: left;
@@ -282,16 +331,16 @@ nav a.active {
 		height: 100vh;
 		overflow-y: auto;
 	}
-	.narrow nav ul {
+	.narrow nav .toc {
 		margin: 20px 0 0 20px;
 	}
-	.textured.narrow nav ul, .parchment.narrow nav ul {
+	.textured.narrow nav .toc, .parchment.narrow nav .toc {
 		margin: 0;
 		border: 0;
 		background: transparent;
 		font-size: 11pt;
 	}
-	.textured.narrow nav ul::before, .parchment.narrow nav ul::before {
+	.textured.narrow nav .toc::before, .parchment.narrow nav .toc::before {
 		display: none;
 	}
 	@media (max-width: 1200px) {
@@ -509,12 +558,6 @@ article {
 .textured .button:active, .textured.dark .button:active {
 	background: linear-gradient(to top, #99ace3, #2f5286);
 }
-nav a {
-	border-left: 5px solid transparent;
-}
-nav a.active {
-	border-color: #446aa2;
-}
 h1, h2, h3, h4, h5 {
 	font-family: Georgia, serif;
 	margin-left: -15px;
@@ -639,7 +682,7 @@ th {
 
 <header><h1>PEPFAR Report</h1></header>
 
-<nav><ul></ul></nav>
+<nav id="nav"><ul class="toc"></ul></nav>
 
 <main>
 
@@ -1158,7 +1201,7 @@ th {
 // Nav
 // ==============================================================
 const headings = document.querySelectorAll('main h1, h2');
-const nav = document.querySelector('nav ul');
+const nav = document.querySelector('nav .toc');
 const navLinks = [];
 // TODO (maybe): cache this directly in the HTML once the document is done
 let belowBginfo = false;
@@ -1181,6 +1224,8 @@ for (const heading of headings) {
 	navLinks.push(a);
 	nav.append(li);
 }
+nav.parentElement.classList.add('nav-showable');
+nav.insertAdjacentHTML('beforebegin', '<a class="nav-show" href="#nav">Contents</a>');
 
 let activeLink = null;
 function updateScroll() {
@@ -1268,7 +1313,7 @@ window.addEventListener('hashchange', updateHash);
 function openTooltip(ev) {
 	const link = /** @type {HTMLAnchorElement} */ (ev.target);
 	const href = link.getAttribute('href');
-	if (!href?.startsWith('#footnote-')) return false;
+	if (!href?.startsWith('#footnote-') && href !== '#nav') return false;
 	if (href.startsWith('#footnote-ref-')) return false;
 	const footnote = document.querySelector(href);
 	if (!footnote) return false;
