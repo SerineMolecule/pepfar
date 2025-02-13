@@ -101,6 +101,12 @@ html {
 	color: black;
 	font-family: Georgia, serif;
 }
+@media print {
+	html, body {
+		background: transparent !important;
+		color: black !important;
+	}
+}
 
 /* Header
 ================================================================= */
@@ -165,6 +171,12 @@ header h1, .dark header h1 {
 .parchment header h1 {
 	max-width: 730px;
 }
+@media print {
+	header h1 {
+		max-width: 730px !important;
+		color: black !important;
+	}
+}
 /* really cool effect but insufficiently professional */
 /* .dark.textured header {
 	transition: none;
@@ -198,6 +210,11 @@ footer {
 
 @media (max-width: 820px) {
 	#option_width {
+		display: none;
+	}
+}
+@media print {
+	footer {
 		display: none;
 	}
 }
@@ -415,12 +432,25 @@ article {
 	border: 1px solid #bbb;
 	box-shadow: 0.5px 1px 2px rgba(0, 0, 0, 0.45), inset 0.5px 1px 1px rgba(255, 255, 255, 0.5);
 }
+@media print {
+	article {
+		border: 0 !important;
+		padding: 0 40px !important;
+		color: black !important;
+	}
+	.footnotes p {
+		position: static !important;
+		top: 0 !important;
+		left: 0 !important;
+		width: auto !important;
+	}
+}
 
 .wide main, .wide nav {
 	max-width: none;
 }
 @media (max-width: 600px) {
-	.emailform {
+	.emailform iframe {
 		height: 550px;
 	}
 }
@@ -444,6 +474,20 @@ article {
 	}
 	.owid iframe {
 		height: 600px !important;
+	}
+}
+@media print {
+	.byline {
+		display: block !important;
+	}
+	.byline-show {
+		display: none !important;
+	}
+	.bginfo {
+		display: block !important;
+	}
+	.bginfo-show {
+		display: none !important;
 	}
 }
 
@@ -522,6 +566,43 @@ a:visited:hover {
 	background: #446aa2;
 	color: #EEEEEE;
 }
+@media print {
+	.emailform iframe {
+		display: none;
+	}
+	.emailform::after {
+		content: 'pepfarreport.org/subscribe';
+	}
+	.button {
+		text-shadow: none !important;
+		color: #333 !important;
+	}
+	a.button::after {
+		content: 'pepfarreport.org/' attr(href);
+	}
+	a.button::after, .emailform::after {
+		font-size: 12pt;
+		font-family: 'Courier New', Courier, monospace;
+		font-weight: bold;
+		color: #333;
+	}
+	a.button {
+		font-size: 0 !important;
+	}
+	.owid1 iframe, .owid10 iframe {
+		display: none;
+	}
+	.owid1::after {
+		content: url(images/image1.png) !important;
+		display: block;
+		zoom: 0.35;
+	}
+	.owid10::after {
+		content: url(images/image10.png) !important;
+		display: block;
+		zoom: 0.35;
+	}
+}
 
 table, td, th {
 	border-collapse: collapse;
@@ -597,7 +678,7 @@ td, th {
 </blockquote>
 <p>The American people want to know that their money is well-spent. But the American people are also compassionate. PEPFAR puts into practice our Judeo-Christian values: care for the poor and vulnerable. Using less than a tenth of a percent of the American budget, PEPFAR has saved more than 20 million lives - by some calculations much, much more. HIV is a case where aid, effectively delivered, has turned the tide and made Americans safer at home while saving millions of lives abroad. If we abandon PEPFAR, we will leave millions of women and children to die.</p>
 <p>If you’d like more updates on the fight for PEPFAR, subscribe here (we will send fewer than 10 emails about our research and the PEPFAR reauthorization debate in Congress):</p>
-<p><iframe class="emailform" src="https://docs.google.com/forms/d/e/1FAIpQLScGE2AdcYWkRFIhBmW47y9JPZXBLIr6s9NFCIXyOyN-wjdNiA/viewform?embedded=true" width="100%" height="460" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe></p>
+<p><div class="emailform"><iframe src="https://docs.google.com/forms/d/e/1FAIpQLScGE2AdcYWkRFIhBmW47y9JPZXBLIr6s9NFCIXyOyN-wjdNiA/viewform?embedded=true" width="100%" height="460" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe></div></p>
 </article><article><h1 id="background">Background</h1>
 <h2 id="what-is-hivaids">What is HIV/AIDS?</h2>
 <p>Human immunodeficiency virus (HIV) is a virus which attacks the human immune system, <a target="_blank" href="https://gladstone.org/news/which-cells-does-hiv-prefer-infect">particularly</a> <a target="_blank" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3543107/">CD4+ T cells</a>. CD4+ T cells control other parts of the immune system and signal when it’s time to mount an immune response, making them a critical part of <a target="_blank" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3312336/">fighting infections</a>.</p>
@@ -631,7 +712,7 @@ td, th {
 <li>72% have suppressed viral loads.</li>
 </ul>
 <p>As a result, global deaths from HIV have been falling since their peak in 2004.</p>
-<p><div class="owid fullwidth"><iframe src="https://ourworldindata.org/grapher/hiv-death-rates?tab=chart&country=~OWID_WRL" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe></div><br>
+<p><div class="owid fullwidth owid1"><iframe src="https://ourworldindata.org/grapher/hiv-death-rates?tab=chart&country=~OWID_WRL" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write" scrolling="no"></iframe></div><br>
 (source: <a target="_blank" href="https://ourworldindata.org/hiv-aids">ourworldindata.org/hiv-aids</a>)</p>
 <h2 id="how-does-antiretroviral-therapy-save-lives">How does antiretroviral therapy save lives?</h2>
 <h3 id="it-dramatically-reduces-deaths-from-hiv">It dramatically reduces deaths from HIV</h3>
@@ -658,7 +739,7 @@ td, th {
 <p>But since taking office, the Trump Administration has expressed serious scrutiny of existing foreign aid expenditures in general: <a target="_blank" href="https://www.whitehouse.gov/presidential-actions/2025/01/reevaluating-and-realigning-united-states-foreign-aid/">it worries that foreign aid is often distributed in a way that is not aligned with American interests and values</a>. When the State Department paused most foreign aid spending on January 24th to evaluate whether the spending fit in with the administration’s America First goals, it shuttered PEPFAR clinics. After two weeks of intense lobbying from Republicans and Democrats alike, the State Department issued waivers that ostensibly allowed many PEPFAR programs to continue.</p>
 <p>As of February 1st, PEPFAR’s core programs - providing antiretrovirals to people with HIV, preventing mother-to-baby transmission, and screening for HIV - have been authorized under a waiver, but funds are in many cases frozen and clinics still closed. Other PEPFAR programs, particularly pre-exposure prophylaxis or PrEP, are currently paused.</p>
 <p>PEPFAR has, in real terms, been spending less money every year - for better and better results.<br>
-<div class="fullwidth"><img src="/images/image9.png" width="780" height="498" alt="Chart of US funding for PEPFAR, adjusted for inflation. Chart shows an initial rise from 2004 to 2009m when it reached almost 9 billion 2024 USD, followed by a slow and uneven decline to the current level of $6.5 billion dollars per year." style="object-fit:contain;max-width:100%"></div></p>
+<div class="fullwidth"><img src="images/image9.png" width="780" height="498" alt="Chart of US funding for PEPFAR, adjusted for inflation. Chart shows an initial rise from 2004 to 2009m when it reached almost 9 billion 2024 USD, followed by a slow and uneven decline to the current level of $6.5 billion dollars per year." style="object-fit:contain;max-width:100%"></div></p>
 </article><article><h1 id="how-well-does-pepfar-work">How well does PEPFAR work?</h1>
 <p>Has PEPFAR really saved millions of lives? And did it do so cost-effectively, or should we expect there to be better ways to save lives for our money? We looked into several lines of evidence, which converged to support the idea that PEPFAR has saved a large number of lives at a very low cost.</p>
 <p><a target="_blank" href="https://ourworldindata.org/births-and-deaths">About sixty million people die each year</a> for <em>any</em> reason. PEPFAR’s proponents claim it has saved more than a million lives per year of its existence. If this is really the case, we should be able to see this pattern in country-level death rates. The most comprehensive look at mortality rates we found is <a target="_blank" href="https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0002467#pgph-0002467-t002">Gaumer et al. (2024)</a>, which looks at country-level mortality in PEPFAR countries and other low and middle-income countries between 2004 and 2018. We used this data for our main analysis, and checked it by confirming that our results aligned with two earlier studies of country-level mortality as well as a more direct cost-effectiveness analysis of PEPFAR’s antiretroviral program.</p>
@@ -780,7 +861,7 @@ td, th {
 <li><a target="_blank" href="https://web.archive.org/web/20170427032033/https://www.pepfar.gov/documents/organization/223163.pdf">2014</a>: $315 per patient per year</li>
 <li><a target="_blank" href="https://www.state.gov/wp-content/uploads/2023/01/Tab-1-2022-PEPFAR-Annual-Treatment-Report.Dec-2022-1.pdf">2022</a>: $59 per patient per year</li>
 </ul>
-<p><div class="fullwidth"><img src="/images/image6.png" width="780" height="442" alt="Chart showing that PEPFAR has had a flat nominal budget roughly since 2009, but the number of people on HIV treatment has steadily increased from zero to over 15 million." style="object-fit:contain;max-width:100%"></div><br>
+<p><div class="fullwidth"><img src="images/image6.png" width="780" height="442" alt="Chart showing that PEPFAR has had a flat nominal budget roughly since 2009, but the number of people on HIV treatment has steadily increased from zero to over 15 million." style="object-fit:contain;max-width:100%"></div><br>
 <a target="_blank" href="https://www.state.gov/wp-content/uploads/2023/01/Tab-1-2022-PEPFAR-Annual-Treatment-Report.Dec-2022-1.pdf">Figure</a>: Thanks to the decreasing cost of ARVs, PEPFAR has been able to have an increasing impact even as its budget has remained flat, meaning its cost-effectiveness has dramatically risen over time.</p>
 <p>In the early 2000s HIV drugs were new and on patent. They were also very inconvenient: patients had to take multiple pills daily. Over time, we have introduced new classes of drugs and made them last longer in the body. Drug companies have collaborated on combining different drugs into a single pill in which the multiple drugs work together to make resistance harder. These have made once-a-day, single-pill treatments <a target="_blank" href="https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bcp.12403">possible</a>. The lower administration costs of the single-pill regime, in combination with increased competition from new generic ARVs due to patents expiring, <a target="_blank" href="https://www.state.gov/wp-content/uploads/2023/01/Tab-1-2022-PEPFAR-Annual-Treatment-Report.Dec-2022-1.pdf">has helped drive costs down over time</a>.</p>
 <p>As previously mentioned, if a patient develops resistance to first-line treatments, they need to move to second-line and in some cases third-line drugs. These typically are combinations that attack more stages of the HIV life cycle and can be newer, less convenient, and more expensive. But as first-line treatments have gotten better––along with other improvements in areas like promoting treatment adherence––<a target="_blank" href="https://www.state.gov/wp-content/uploads/2023/01/Tab-1-2022-PEPFAR-Annual-Treatment-Report.Dec-2022-1.pdf">fewer patients need the more expensive and less convenient second and third-line treatments</a>.</p>
@@ -821,7 +902,7 @@ td, th {
 <p>We can’t test this directly, but we can test whether death rates <em>were</em> changing by the same amount in treatment and control countries <em>before PEPFAR happened.</em> To do so, you can create what’s called an event study plot by first picking a baseline year (in this case 1990). For each year X after that, you can compute:</p>
 <p><em>(change in mortality rate in PEPFAR countries between 1990 and year X) - (change in mortality in non-PEPFAR countries between 1990 and year X)</em></p>
 <p>and plot the results. The authors provide this data in supplemental materials:</p>
-<p><div class="fullwidth"><img src="/images/image3.jpg" width="780" height="468" alt="Chart of a parallel trend test in ACM between all PEPFAR and control countries, demonstrating no statistically significant difference in trend changes before 2004." style="object-fit:contain;max-width:100%"></div></p>
+<p><div class="fullwidth"><img src="images/image3.jpg" width="780" height="468" alt="Chart of a parallel trend test in ACM between all PEPFAR and control countries, demonstrating no statistically significant difference in trend changes before 2004." style="object-fit:contain;max-width:100%"></div></p>
 <p>A differences-in-differences approach is usually considered plausible if:</p>
 <ul>
 <li>The y-value in this plot before 2004 is essentially constant (“parallel pretrends”)
@@ -841,11 +922,11 @@ td, th {
 <p>The rest of the paper’s supplement helps clarify what’s going on. (The authors don’t discuss the potential pre-trend, instead arguing that all estimates passed a parallel trends test because the pre-period coefficients are not statistically significant; this makes it unlikely that they searched across all possible specifications to find good event study plots.)</p>
 <p>Some countries received “more” PEPFAR than others. Specifically, 31 countries received <a target="_blank" href="https://www.state.gov/wp-content/uploads/2023/02/PEPFAR-2023-Country-and-Regional-Operational-Plan.pdf">Country Operational Plans</a> (COP). These countries received a combined 40 billion dollars during the study period, whereas all 59 other PEPFAR countries received a combined 1.1 billion dollars during the study period. Alternately, the authors rank each country from highest to lowest per-capita PEPFAR spending, and separate the 90 countries in “high” “medium” and “low” intensity groups of 30 countries.</p>
 <p>They create separate event study plots for each:</p>
-<p><div class="fullwidth"><img src="/images/image4.jpg" width="780" height="468" alt="The previous chart is repeated, this time comparing COP and control countries. Again, there does not seem to be a difference in trend before 2004, and the one after 2004 is stark." style="object-fit:contain;max-width:100%"></div><br>
-<div class="fullwidth"><img src="/images/image2.jpg" width="780" height="468" alt="The previous chart is repeated, this time comparing non-COP and control countries. This time there is a noticeable trend for the non-COP countries, but again that trend is not changing until 2004, when it, instead of falling, levels out." style="object-fit:contain;max-width:100%"></div><br>
-<div class="fullwidth"><img src="/images/image7.jpg" width="780" height="468" alt="" style="object-fit:contain;max-width:100%"></div><br>
-<div class="fullwidth"><img src="/images/image8.jpg" width="780" height="468" alt="Another graph shows medium intensity countries, with a less dramatic shift but a still noticeable one." style="object-fit:contain;max-width:100%"></div><br>
-<div class="fullwidth"><img src="/images/image5.jpg" width="780" height="468" alt="Finally, low intensity countries have very high error bars, but no difference at any point between them and control countries." style="object-fit:contain;max-width:100%"></div></p>
+<p><div class="fullwidth"><img src="images/image4.jpg" width="780" height="468" alt="The previous chart is repeated, this time comparing COP and control countries. Again, there does not seem to be a difference in trend before 2004, and the one after 2004 is stark." style="object-fit:contain;max-width:100%"></div><br>
+<div class="fullwidth"><img src="images/image2.jpg" width="780" height="468" alt="The previous chart is repeated, this time comparing non-COP and control countries. This time there is a noticeable trend for the non-COP countries, but again that trend is not changing until 2004, when it, instead of falling, levels out." style="object-fit:contain;max-width:100%"></div><br>
+<div class="fullwidth"><img src="images/image7.jpg" width="780" height="468" alt="" style="object-fit:contain;max-width:100%"></div><br>
+<div class="fullwidth"><img src="images/image8.jpg" width="780" height="468" alt="Another graph shows medium intensity countries, with a less dramatic shift but a still noticeable one." style="object-fit:contain;max-width:100%"></div><br>
+<div class="fullwidth"><img src="images/image5.jpg" width="780" height="468" alt="Finally, low intensity countries have very high error bars, but no difference at any point between them and control countries." style="object-fit:contain;max-width:100%"></div></p>
 <p>The plots showing countries with Country Operational Plans (COPs) and countries where PEPFAR operates with high intensity are compelling event studies, so the differences-in-differences approach is plausible. There may be a <em>very</em> slight downward trend before treatment; this is indistinguishable from statistical noise but a skeptical reader may choose to discount the effects by roughly 10-20%.</p>
 <p>The non-COP and middle intensity event study plots are concerning (they do not look flat before 2004, and there’s no clear change in 2004 to attribute to the program). This doesn’t rule out a PEPFAR benefit but it does mean we can’t make any confident claims about the effect in these countries. Figure F looks like a fairly compelling null result, which is not surprising because PEPFAR spending in low-intensity countries is more than 100 times lower per capita than high-intensity countries, so we should not expect to see a visible effect on the entire country’s all-cause mortality<sup class="footnote"><a href="#footnote-6" id="footnote-ref-6">6</a></sup>.</p>
 <p>As a result, we will only use the estimates of the effects of PEPFAR in COP and high intensity countries, which appear to be reliable enough to perform a cost-benefit analysis. We will perform a conservative cost-effectiveness analysis using the <em>entire</em> cost of PEPFAR between 2004 and 2018 because out of the 70 billion dollars PEPFAR spent, only 40 billion was budgeted to specific countries. The rest was spent in ways that may have benefited multiple countries, or (in the case of research) improved the program across all countries, and therefore may have contributed to the effects we see.</p>
@@ -941,7 +1022,7 @@ td, th {
 <p>To give a sense of how we did the cost-benefit analysis, let’s compute a headline number. We will look at high-intensity countries, which mitigates the population reweighting problem, since India did not receive high-intensity PEPFAR support, and we will use Gaumer et al.’s headline specification (without covariates.) Gaumer et al. estimate that annual all-cause mortality declined by about 3.081 deaths per 1000 people in these countries as a result of PEPFAR: to account for the population weighting issue, we adjust this down to about 1.695 deaths per 1000 people per year. We estimate that the average total population of these countries during the study period was about 761 million, so over fifteen years we calculate that about 19 million lives were saved by the program. At a total cost of 70.2 billion dollars, this means we estimate that <strong>the PEPFAR program spent about $3,600 per life saved. The US government is willing to pay <a target="_blank" href="https://aspe.hhs.gov/sites/default/files/documents/cd2a1348ea0777b1aa918089e4965b8c/standard-ria-values.pdf">three thousand times</a> this much to save an American life.</strong></p>
 <p>When we accounted for the statistical uncertainty and possible choices of covariates in the Gaumer et al. analysis, we found an overall range of <strong>roughly 7.5 to 30 million lives saved at a cost of $1,500-10,000 per life saved</strong>.</p>
 <p>If you’d like to check our work, a spreadsheet with full details can be found here:</p>
-<p><a class="button" href="/cost-benefit-mortality" target="_blank">Cost-Benefit Analysis: Country-Level Mortality</a></p>
+<p><a class="button" href="cost-benefit-mortality" target="_blank">Cost-Benefit Analysis: Country-Level Mortality</a></p>
 <h3 id="costs-and-benefits-of-antiretroviral-therapy-art">Costs and Benefits of Antiretroviral Therapy (ART)</h3>
 <p>The previous approach had the benefit of capturing the effects of all of PEPFAR’s work in high-intensity countries, but it had several drawbacks:</p>
 <ul>
@@ -1015,7 +1096,7 @@ td, th {
 <p>One might be concerned that these effects are <strong>overestimated</strong> because patients in a study are more likely to comply with the medication regimen than people in the general population. To look at this, we also found seven studies reporting data on death rates of people receiving antiretroviral therapy. On average, these studies reported about an average of <strong>5% mortality per year</strong>, with a slightly lower mortality rate of <strong>3.6%</strong> from the two multi-year studies in Africa. Comparing these to the 7.5% mortality rate of untreated HIV above would imply a <strong>33% and 50% reduction in mortality from ARV.</strong></p>
 <p>This is likely a severe <strong>underestimate.</strong> It is dangerous to compare mortality rates across studies (with different populations), and the populations in these studies tend to be much sicker at baseline than those in Glaubius et al. For example, between 5 and 10% of people in Glaubius et al. have CD4 counts below 200 (one cutoff for diagnosing AIDS). But in Haas et al., the <strong>median</strong> person has a CD4 count of 200. Lower CD4 counts are <em>strongly</em> associated with increased mortality, so this is underestimating the effect of ART on mortality. On the other hand, some of these studies may undercount mortality among people who were lost to followup. We are not confident to what extent this issue would also lower the estimates in Glaubius et al., above.</p>
 <p>For details, see “Mortality Rates on Antiretrovirals” in this spreadsheet:</p>
-<p><a class="button" href="/cost-benefit-antiretrovirals" target="_blank">Cost-Benefit Analysis: Antiretrovirals</a></p>
+<p><a class="button" href="cost-benefit-antiretrovirals" target="_blank">Cost-Benefit Analysis: Antiretrovirals</a></p>
 <p>In our cost-benefit analysis we will look at costs and benefits under assumptions that ARV reduces all-cause mortality by 25%, 50%, 75%, and 100% (the last of these providing an upper bound on the direct effects). Subjectively, we think 75% is a reasonable estimate given the considerations in this section, but we provide all four.</p>
 <h3 id="the-cost-to-provide-a-single-person-with-art">The cost to provide a single person with ART</h3>
 <p>How much does it cost to provide a single person with antiretroviral therapy? We laid out the basic costs in the <a href="#cost-analysis-antiretroviral-treatments-arvs">Cost Analysis</a> section above.</p>
@@ -1025,10 +1106,10 @@ td, th {
 <p>Putting these assumptions together, we find a range of estimates from <strong>about $5,220 to $23,470 per death averted</strong>, depending on the assumptions on death rates and antiretroviral effectiveness. (This range excludes the “100% reduction in mortality columns for obvious reasons.)</p>
 <p>Our preferred set of assumptions is 5% annual mortality in the absence of ART, and 75% reduction in mortality from ART, from which we estimate <strong>$7,823.16 per death averted from ART.</strong> We caution that this is only <em>direct</em> lives saved: it does not take into account the fact that someone on ART is much less likely to spread HIV to other people who may then die of it.</p>
 <p>If you like, you can check our work here:</p>
-<p><a class="button" href="/cost-benefit-antiretrovirals" target="_blank">Cost-Benefit Analysis: Antiretrovirals</a></p>
+<p><a class="button" href="cost-benefit-antiretrovirals" target="_blank">Cost-Benefit Analysis: Antiretrovirals</a></p>
 <h3 id="the-need-for-pepfar-is-slowly-declining">The need for PEPFAR is (slowly) declining</h3>
 <p>Many people are legitimately and understandably concerned that PEPFAR represents an indefinite commitment. That would be a drain on the American treasury at a time of crisis. But PEPFAR isn’t an eternal expense, because full suppression of HIV is very much achievable. New HIV infections are down, like they have been every year since the late 90s. Deaths started declining in the mid-2000s. At the current rate, it would take a long time. But we have eradicated smallpox, polio is nearly gone, and with continued effort we can defeat HIV/AIDS.</p>
-<p><div class="owid fullwidth"><iframe src="https://ourworldindata.org/grapher/deaths-from-hiv-by-age?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe></div></p>
+<p><div class="owid fullwidth owid10"><iframe src="https://ourworldindata.org/grapher/deaths-from-hiv-by-age?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write" scrolling="no"></iframe></div></p>
 <p>The fight against HIV is getting less expensive, and therefore more cost-effective, because of our work. In 2004, when PEPFAR got started, first-line ARV medication cost about $1,000 per year––an unsustainable expense with 40 million HIV+ people worldwide. Initial infrastructure setup was substantially more expensive than that, pushing the first six months to <a target="_blank" href="https://www.statecraft.pub/p/saving-twenty-million-lives.">$6,000 per person</a>. Today, because of our efforts, a year of first-line ARV medication costs about <a target="_blank" href="https://www.state.gov/wp-content/uploads/2023/01/Tab-1-2022-PEPFAR-Annual-Treatment-Report.Dec-2022-1.pdf">$60</a> while screening, monitoring, and other healthcare costs add <a target="_blank" href="https://www.state.gov/the-united-states-president-s-emergency-plan-for-aids-relief/pepfar-five-year-strategy-2022">only $40</a>. As first-line ARV medication gets cheaper and as the number of new infections declines, it becomes easier for local governments to shoulder the burden of HIV treatment.</p>
 </article><article class="footnotes">
 

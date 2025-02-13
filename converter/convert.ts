@@ -74,7 +74,7 @@ contents = contents.replace(/<a target="_blank" href="[^"]*"><code>pepfarreport.
 	let title;
 	switch (linkId) {
 	case 'subscribe':
-		return '<iframe class="emailform" src="https://docs.google.com/forms/d/e/1FAIpQLScGE2AdcYWkRFIhBmW47y9JPZXBLIr6s9NFCIXyOyN-wjdNiA/viewform?embedded=true" width="100%" height="460" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>';
+		return '<div class="emailform"><iframe src="https://docs.google.com/forms/d/e/1FAIpQLScGE2AdcYWkRFIhBmW47y9JPZXBLIr6s9NFCIXyOyN-wjdNiA/viewform?embedded=true" width="100%" height="460" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe></div>';
 		break;
 	case 'cost-benefit-antiretrovirals':
 		title = 'Cost-Benefit Analysis: Antiretrovirals';
@@ -85,7 +85,7 @@ contents = contents.replace(/<a target="_blank" href="[^"]*"><code>pepfarreport.
 	default:
 		throw new Error("unrecognized minilink");
 	}
-	return `<a class="button" href="/${linkId}" target="_blank">${title}</a>`;
+	return `<a class="button" href="${linkId}" target="_blank">${title}</a>`;
 });
 
 // just the first article (bylines)
@@ -96,10 +96,10 @@ contents = contents.replace('</article>', `</div><p><a class="button" href="pepf
 
 contents = contents.replace(/<img src="([^"]*)" width="([^"]*)" height="([^"]*)" alt="([^"]*)">/g, (str, src, w, h, alt) => {
 	if (src === 'images/image1.png') {
-		return '<div class="owid fullwidth"><iframe src="https://ourworldindata.org/grapher/hiv-death-rates?tab=chart&country=~OWID_WRL" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe></div>';
+		return '<div class="owid fullwidth owid1"><iframe src="https://ourworldindata.org/grapher/hiv-death-rates?tab=chart&country=~OWID_WRL" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write" scrolling="no"></iframe></div>';
 	}
 	if (src === 'images/image10.png') {
-		return '<div class="owid fullwidth"><iframe src="https://ourworldindata.org/grapher/deaths-from-hiv-by-age?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe></div>';
+		return '<div class="owid fullwidth owid10"><iframe src="https://ourworldindata.org/grapher/deaths-from-hiv-by-age?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write" scrolling="no"></iframe></div>';
 	}
 	return `<div class="fullwidth"><img src="${src}" width="${w}" height="${h}" alt="${alt}" style="object-fit:contain;max-width:100%"></div>`;
 });
