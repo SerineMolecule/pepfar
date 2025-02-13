@@ -41,9 +41,9 @@ updateClasses();
 window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', updateClasses);
 window.addEventListener('DOMContentLoaded', () => {
 	// add options menu
-	const optionsElem = document.createElement('div');
+	const optionsElem = document.querySelector('.options') || document.createElement('div');
 	optionsElem.className = 'options';
-	const darkSelect = '<select name="dark" id="option_dark" value="' + (options.dark || '') + '">' +
+	const darkSelect = 'Theme: <select name="dark" id="option_dark" value="' + (options.dark || '') + '">' +
 		'<option value="">Automatic (' + (prefersDark() ? 'Dark Textured' : 'Institute') + ')</option>' +
 		'<option value="light"' + (options.dark === 'light' ? ' selected' : '') + '>Institute</option>' +
 		'<option value="dark-institute"' + (options.dark === 'dark-institute' ? ' selected' : '') + '>Dark Institute</option>' +
@@ -54,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		'<option value="">Normal width</option>' +
 		'<option value="wide"' + (options.width ? ' selected' : '') + '>Full width</option></select>';
 	optionsElem.innerHTML = darkSelect + widthSelect;
-	document.body.append(optionsElem);
+	document.querySelector('footer').append(optionsElem);
 
 	// handle option changes
 	document.getElementById('option_dark').addEventListener('change', event => {
@@ -78,16 +78,28 @@ html, body {
 	padding: 0;
 }
 html {
-	background: #e3e3e3;
-	color: #000;
+	background: #fff;
+	color: #111;
 	font: 13pt "Helvetica Neue", "Neue Helvetica", Helvetica, Arial, sans-serif;
 	overflow-wrap: break-word;
 	line-height: 1.2;
 }
+.textured {
+	background: #e3e3e3;
+}
 .dark, .dark body {
-	background: #202020;
+	background: #000;
 	color: #ccc;
 	color-scheme: dark;
+}
+.dark.textured, .dark.textured body {
+	background: #202020;
+}
+.parchment, .parchment body, .parchment article, .parchment header, .parchment header:hover {
+	background: #d0cab3;
+	filter: none;
+	color: black;
+	font-family: Georgia, serif;
 }
 
 /* Header
@@ -102,7 +114,7 @@ header {
 
 	color: #dddddd;
 	padding: 10px;
-	height: 80px;
+	height: 100px;
 	transition: 1s;
 }
 header:hover {
@@ -111,23 +123,9 @@ header:hover {
 }
 header h1 {
 	margin: 0 auto;
-	max-width: 760px;
-	text-align: left;
-	padding-top: 18px;
-}
-@media (max-width: 800px) {
-	header {
-		height: 70px;
-	}
-	header h1 {
-		padding-top: 13px;
-	}
-}
-header h1, .dark header h1 {
-	color: inherit;
-}
-.parchment header h1 {
-	max-width: 730px;
+	font-size: 48pt;
+	padding-top: 9px;
+	font-weight: normal;
 }
 .textured header {
 	background: url(hiv.jpg) right -40vw top -20vw no-repeat, linear-gradient(to bottom, #415ca8, #15376a);
@@ -141,6 +139,31 @@ header h1, .dark header h1 {
 .textured header:hover {
 	background: url(hiv.jpg) right -43vw top -22vw no-repeat, linear-gradient(to bottom, #415ca8, #15376a);
 	background-size: 105%;
+}
+.textured header h1 {
+	max-width: 760px;
+	font-size: 28pt;
+	padding-top: 27px;
+	font-weight: bold;
+}
+@media (max-width: 800px) {
+	header, .textured header {
+		height: 70px;
+		background-position: right -55vw top 30%;
+	}
+	header:hover, .textured header:hover {
+		background-position: right -58vw top 30%;
+	}
+	header h1, .textured header h1 {
+		font-size: 24pt;
+		padding-top: 14px;
+	}
+}
+header h1, .dark header h1 {
+	color: inherit;
+}
+.parchment header h1 {
+	max-width: 730px;
 }
 /* really cool effect but insufficiently professional */
 /* .dark.textured header {
@@ -167,11 +190,12 @@ footer {
 	text-align: center;
 	color: #888;
 	font-size: 10pt;
+	padding: 0 0 60px;
 }
 .options {
-	text-align: center;
-	padding: 3px 0 8px;
+	padding: 3px;
 }
+
 @media (max-width: 820px) {
 	#option_width {
 		display: none;
@@ -186,11 +210,11 @@ main, nav {
 	margin: 0 auto;
 	padding: 12px 0;
 }
-main {
+main, .tooltip {
 	line-height: 1.5;
 }
 nav {
-	font-size: 12pt;
+	font-size: 11pt;
 }
 nav ul::before {
 	display: block;
@@ -201,18 +225,22 @@ nav ul::before {
 nav ul, nav li {
 	list-style: none;
 	padding: 0;
-	margin: 0;
 }
 nav ul {
-	background: #F0F0F0;
+	background: #e8e8e8;
 	padding: 5px 0;
 	margin: 30px 30px 0;
+	max-width: 400px;
 }
 .dark nav ul {
-	background: #111;
+	background: #222;
 }
 .textured nav ul {
+	border: 1px solid #aaa;
 	border-radius: 8px;
+}
+.dark.textured nav ul {
+	border-color: #555;
 }
 nav a {
 	display: block;
@@ -231,35 +259,37 @@ nav a.active {
 		position: sticky;
 		float: left;
 		margin: 0;
-		margin-top: 30px;
 		top: 0;
-		width: 220px;
+		width: 200px;
 		padding: 0;
 		height: 100vh;
 		overflow-y: auto;
 	}
-	.narrow nav ul::before {
-		content: '';
-		padding: 0;
+	.narrow nav ul {
+		margin: 20px 0 0 20px;
 	}
-	.narrow nav ul, .dark.narrow nav ul {
+	.textured.narrow nav ul, .parchment.narrow nav ul {
 		margin: 0;
-		border-radius: 0;
+		border: 0;
 		background: transparent;
+		font-size: 11pt;
+	}
+	.textured.narrow nav ul::before, .parchment.narrow nav ul::before {
+		display: none;
 	}
 	@media (max-width: 1200px) {
 		.narrow main {
 			margin-left: 220px;
 		}
 	}
-	@media (min-width: 1322px) {
+	@media (min-width: 1301px) {
 		.narrow nav {
-			width: 270px;
+			width: 250px;
 		}
 	}
-	@media (min-width: 1410px) {
+	@media (min-width: 1401px) {
 		.narrow nav {
-			width: 320px;
+			width: 300px;
 		}
 	}
 }
@@ -268,26 +298,21 @@ nav a.active {
 ================================================================= */
 
 article {
+	padding: 0 32px;
+}
+.textured article {
 	background: #ffffff;
 	color: #111111;
 	padding: 1px 32px;
 	margin-top: 10px;
 	margin-bottom: 30px;
 }
-.byline-section, .dark .byline-section {
-	background: transparent;
+.byline-section {
 	font-size: 12pt;
+}
+.textured .byline-section, .textured.dark .byline-section {
+	background: transparent;
 	margin: -8px 0;
-}
-.footnotes, .tooltip {
-	font-size: 12pt;
-}
-.footnotes.has-sidenotes {
-	background: transparent;
-}
-.dark article {
-	background: #000000;
-	color: #ccc;
 }
 .textured article {
 	border-radius: 8px;
@@ -295,19 +320,30 @@ article {
 	box-shadow: 0.5px 1px 2px rgba(0, 0, 0, 0.45), inset 0.5px 1px 1px rgba(255, 255, 255, 0.5);
 }
 .textured.dark article {
+	background: #000000;
+	color: #ccc;
 	border: 1px solid #333;
 	box-shadow: 0.5px 1px 2px rgba(255, 255, 255, 0.45), inset 0.5px 1px 1px rgba(255, 255, 255, 0.5);
+}
+.has-sidenotes p {
+	margin: -3px -7px;
+	padding: 3px 7px;
+	background: #e8e8e8;
+	color: black;
+}
+.dark .has-sidenotes p {
+	background: #222;
+	color: #ccc;
+}
+.textured .has-sidenotes p, .parchment .has-sidenotes p {
+	margin: 0;
+	padding: 0;
+	background: none;
 }
 .textured .byline-section, .textured.dark .byline-section, .textured .has-sidenotes, .textured.dark .has-sidenotes {
 	background: none;
 	box-shadow: none;
 	border: none;
-}
-.parchment, .parchment body, .parchment article, .parchment header, .parchment header:hover {
-	background: #d0cab3;
-	filter: none;
-	color: black;
-	font-family: Georgia, serif;
 }
 .parchment h1, .parchment h2, .parchment h3, .parchment h4, .parchment h5 {
 	color: black;
@@ -326,9 +362,15 @@ article {
 	display: none;
 }
 
+.footnotes, .tooltip {
+	font-size: 11pt;
+}
+.footnotes.has-sidenotes {
+	background: transparent;
+}
 .footnote a {
 	text-decoration: none;
-	background: #BBB;
+	background: #DDD;
 	color: #111;
 	padding: 1px 5px;
 	border-radius: 8px;
@@ -340,7 +382,6 @@ article {
 .footnote-backlink {
 	text-decoration: none;
 }
-
 .tooltip {
 	color: #000;
 	background: #ddd;
@@ -394,8 +435,9 @@ article {
 }
 
 @media (min-width: 1000px) {
-	article {
-		padding: 1px 40px;
+	article, .textured article {
+		padding-left: 40px;
+		padding-right: 40px;
 	}
 	.fullwidth {
 		margin: 0 -40px;
@@ -472,7 +514,7 @@ a:visited:hover {
 }
 .smallbutton {
 	font-size: 12pt;
-	padding: 1px 6px;
+	padding: 0 6px;
 	font-style: inherit;
 	font: inherit;
 }
@@ -1165,7 +1207,7 @@ function closeTooltip() {
 }
 function showSidenotes() {
 	const mainRight = document.querySelector('main')?.getBoundingClientRect()?.right + window.scrollX;
-	let availableWidth = window.innerWidth - mainRight - 25;
+	let availableWidth = window.innerWidth - mainRight - 29;
 	if (!availableWidth || availableWidth < 220) availableWidth = 0;
 	if (availableWidth > 380) availableWidth = 380;
 
