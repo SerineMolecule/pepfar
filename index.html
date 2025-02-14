@@ -86,16 +86,19 @@ html {
 }
 .textured {
 	background: #e3e3e3;
+	background: linear-gradient(to bottom, #999, #e3e3e3 400px, #e3e3e3);
 }
-.dark, .dark body {
+.dark {
 	background: #000;
 	color: #ccc;
 	color-scheme: dark;
 }
-.dark.textured, .dark.textured body {
+.dark.textured {
 	background: #202020;
+	background: linear-gradient(to bottom, #000, #000 70px, #202020 400px, #202020);
+	/* background: linear-gradient(to bottom, #999, #1a1a1a 400px, #1a1a1a); */
 }
-.parchment, .parchment body, .parchment article, .parchment header, .parchment header:hover {
+.parchment, .parchment article, .parchment header, .parchment header:hover {
 	background: #d0cab3;
 	filter: none;
 	color: black;
@@ -130,11 +133,11 @@ header:hover {
 header h1 {
 	margin: 0 auto;
 	font-size: 48pt;
-	padding-top: 9px;
+	padding: 9px 0 0 10px;
 	font-weight: normal;
 }
 .textured header {
-	background: url(hiv.jpg) right -40vw top -20vw no-repeat, linear-gradient(to bottom, #415ca8, #15376a);
+	background: url(hiv.jpg) right -40vw top -20vw no-repeat, linear-gradient(to bottom, #415ca8, #0d2c5b);
 	background-size: 100%;
 	background-blend-mode: screen;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
@@ -143,14 +146,13 @@ header h1 {
 	filter: none;
 }
 .textured header:hover {
-	background: url(hiv.jpg) right -43vw top -22vw no-repeat, linear-gradient(to bottom, #415ca8, #15376a);
+	background: url(hiv.jpg) right -43vw top -22vw no-repeat, linear-gradient(to bottom, #415ca8, #0d2c5b);
 	background-size: 105%;
 }
 .textured header h1 {
 	max-width: 760px;
-	font-size: 28pt;
-	padding-top: 27px;
-	font-weight: bold;
+	font-size: 38pt;
+	padding: 20px 0 0 0;
 }
 @media (max-width: 800px) {
 	header, .textured header {
@@ -162,14 +164,18 @@ header h1 {
 	}
 	header h1, .textured header h1 {
 		font-size: 24pt;
-		padding-top: 14px;
+		padding: 14px 0 0 0;
 	}
 }
 header h1, .dark header h1 {
 	color: inherit;
 }
+.parchment header {
+	height: auto;
+}
 .parchment header h1 {
 	max-width: 730px;
+	padding: 0;
 }
 @media print {
 	header h1 {
@@ -192,7 +198,8 @@ header h1, .dark header h1 {
 }
 .dark.textured body {
 	backdrop-filter: blur(4px);
-	background: rgba(32, 32, 32, 0.8);
+	background: rgba(32, 32, 32, 0.9);
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) 70px, #202020 600px, #202020);
 } */
 
 /* Footer
@@ -388,8 +395,8 @@ article {
 .textured.dark article {
 	background: #000000;
 	color: #ccc;
-	border: 1px solid #333;
-	box-shadow: 0.5px 1px 2px rgba(255, 255, 255, 0.45), inset 0.5px 1px 1px rgba(255, 255, 255, 0.5);
+	border: 1px solid #111;
+	box-shadow: 0.5px 1px 2px rgba(255, 255, 255, 0.4), inset 0.5px 1px 1px rgba(255, 255, 255, 0.4);
 }
 .has-sidenotes p {
 	margin: -3px -7px;
