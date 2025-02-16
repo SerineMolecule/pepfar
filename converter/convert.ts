@@ -22,6 +22,10 @@ const images = [...htmlContents.matchAll(/<img alt="[^"]*" src="([^"]*)" style="
 
 contents = md.render(contents);
 
+// junk
+contents = contents.replace(/<h1><\/h1>\n/g, '');
+contents = contents.replace(/<p>★ ★ ★<\/p>\n/g, '');
+
 // images
 let i = 0;
 contents = contents.replace(/<img src="(.*?)"/g, (str, oldSrc) => {
@@ -89,17 +93,21 @@ contents = contents.replace(/<a target="_blank" href="[^"]*"><code>pepfarreport.
 });
 
 // just the first article (bylines)
-contents = contents.replace(/<h1 .*?<\/h1>/, ''); // original header
+contents = contents.replace(/<h1 .*?<\/h1>\n/, ''); // "A Citizen Review..."
+contents = contents.replace(/<h1 .*?<\/h1>\n/, ''); // "Yesterday, today..."
+contents = contents.replace(/<h5 .*?<\/h5>\n/, ''); // "Kelsey Piper, Leah..."
+contents = contents.replace('<article></article>', ''); // extraneous markup caused by original author line
+contents = contents.replace(/<h2 id="table-of-contents">.*?<\/article>/s, '</article>'); // toc
 contents = contents.replace('<article>', '<article class="byline-section"><div class="byline">');
 contents = contents.replace('</article>', `</div><p><a class="button" href="pepfar-summary.pdf">Executive summary (PDF)</a> <a class="button" href="pepfar-report.pdf">Full essay (PDF)</a></p>
 </article>`);
 
 contents = contents.replace(/<img src="([^"]*)" width="([^"]*)" height="([^"]*)" alt="([^"]*)">/g, (str, src, w, h, alt) => {
-	if (src === 'images/image1.png') {
-		return '<div class="owid fullwidth owid1"><iframe src="https://ourworldindata.org/grapher/hiv-death-rates?tab=chart&country=~OWID_WRL" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write" scrolling="no"></iframe></div>';
+	if (src === 'images/image9.png') {
+		return '<div class="owid fullwidth owid9"><iframe src="https://ourworldindata.org/grapher/hiv-death-rates?tab=chart&country=~OWID_WRL" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write" scrolling="no"></iframe></div>';
 	}
-	if (src === 'images/image10.png') {
-		return '<div class="owid fullwidth owid10"><iframe src="https://ourworldindata.org/grapher/deaths-from-hiv-by-age?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write" scrolling="no"></iframe></div>';
+	if (src === 'images/image5.png') {
+		return '<div class="owid fullwidth owid5"><iframe src="https://ourworldindata.org/grapher/deaths-from-hiv-by-age?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write" scrolling="no"></iframe></div>';
 	}
 	return `<div class="fullwidth"><img src="${src}" width="${w}" height="${h}" alt="${alt}" style="object-fit:contain;max-width:100%"></div>`;
 });
