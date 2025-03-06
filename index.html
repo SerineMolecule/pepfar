@@ -87,6 +87,7 @@ html {
 .textured {
 	background: #e3e3e3;
 	background: linear-gradient(to bottom, #999, #e3e3e3 400px, #e3e3e3);
+	min-height: 100%;
 }
 .dark {
 	background: #000;
@@ -685,6 +686,38 @@ th {
 	background: #333;
 	color: #ccc;
 }
+
+.alert {
+	border: 1px solid #54a136;
+	padding: 8px 12px;
+	width: fit-content;
+	color: #38771f;
+}
+.textured .alert {
+	border-radius: 6px;
+}
+.parchment .alert {
+	color: #17380a;
+}
+.dark .alert {
+	color: #54a136;
+}
+.alert a.button, .dark .alert a.button {
+	/* background: #771f1f; */
+	background: #38771f;
+}
+.alert a.button:hover, .dark .alert a.button:hover {
+	background: #4fa42d;
+}
+.textured .alert .button, .textured.dark .alert .button {
+	background: linear-gradient(to bottom, hsl(124, 48%, 45%), hsl(124, 67%, 18%));
+}
+.textured .alert .button:hover, .textured.dark .alert .button:hover {
+	background: linear-gradient(to bottom, hsl(124, 52%, 55%), hsl(124, 48%, 23%));
+}
+.textured .alert .button:active, .textured.dark .alert .button:active {
+	background: linear-gradient(to top, hsl(124, 57%, 60%), hsl(124, 48%, 23%));
+}
 </style>
 
 <header><h1>PEPFAR Report</h1></header>
@@ -707,6 +740,9 @@ th {
 <em><strong>Rishi Mago</strong> is a software engineer at Amazon.</em></p>
 <p><em>We speak only for ourselves and our consciences. None of our respective institutions have reviewed this work. Alex was formerly employed by a USAID contractor that received PEPFAR funding. She did not work directly on PEPFAR programs. We thank Emily Lin for serving as our Webmaster. We are indebted to our external reviewers, Saloni Dattani and Andrew Martin. We also thank a number of other people who gave their time to improve this work, and the people whose data and analysis we used to make it.</em></p>
 </div><p><a class="button" href="pepfar-summary.pdf">Executive summary (PDF)</a> <a class="button" href="pepfar-report.pdf">Full essay (PDF)</a></p>
+<p class="alert">
+	<strong>Update:</strong> We're hosting a demonstration this Friday. <a href="event" class="button">Details</a>
+</p>
 </article><article><h1 id="executive-summary">Executive Summary</h1>
 <p>The President’s Emergency Plan For AIDS Relief (PEPFAR) provides funding to prevent and treat HIV/AIDS in low- and middle-income countries. For the first twenty years of its history, it was popular and bipartisan, the shining jewel of US aid programs. But right now, many PEPFAR programs are paused, clinics are shuttered, and the upcoming reauthorization fight looks uncertain. The State Department, which administers PEPFAR, says the program has saved 25 million lives. We are an independent team of journalists, academics, and technologists who decided to investigate whether that was true.</p>
 <p>Our key findings:</p>
@@ -1258,6 +1294,9 @@ const navLinks = [];
 // TODO (maybe): cache this directly in the HTML once the document is done
 let belowBginfo = false;
 let bginfoHeadings = [];
+if (headings.length <= 1) {
+	nav.parentElement.style.display = 'none';
+}
 for (const heading of headings) {
 	const li = document.createElement('li');
 	const a = document.createElement('a');
